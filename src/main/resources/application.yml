@@ -1,0 +1,14 @@
+spring:
+  data:
+    rest:
+      base-path: /api
+
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false
+
+---
+spring:
+  profiles: demo
+  datasource:
+    data: classpath:sample-tickets.sql
+
+
