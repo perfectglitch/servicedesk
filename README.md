@@ -10,9 +10,9 @@ Java 8
 
 ## Quick usage
 
-To  build, test and package executable .jar use custom Gradle task `stage`.
+To  build, test and package executable .jar use custom Gradle task `cleanBuildAll`.
 
-> gradle stage
+> gradle cleanBuildAll
 
 Start application by running:
 
@@ -26,6 +26,6 @@ Set `spring.profiles.active` Java property value to `demo` in order to start app
 
 > java -Dspring.profiles.active=demo -jar build/libs/servicedesk-0.0.1-SNAPSHOT.jar
 
-## Service Desk dashboard
+
 
 ![dashboard_PNG](https://github.com/perfectglitch/servicedesk/raw/master/servicedesk.PNG)

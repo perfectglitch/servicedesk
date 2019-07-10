@@ -31,7 +31,7 @@ task testApp(type: NpmTask) {
     args = ["run", "test"]
 }
 
-task buildApp(type: NpmTask, dependsOn: testApp) {
+task buildApp(type: NpmTask) {
     workingDir = file("${project.projectDir}/app")
     args = ["run", "build"]
 }
@@ -41,13 +41,20 @@ task packageApp(type: Copy, dependsOn: buildApp) {
     into 'build/resources/main/public/.'
 }
 
+task cleanBuildAll(type: GradleBuild) {
+    tasks = ['clean', 'installAppDependencies', 'testApp', 
+             'buildApp', 'packageApp', 'build']
+}
+
 task stage(type: GradleBuild) {
-    tasks = ['clean', 'installAppDependencies', 'packageApp', 'build']
+    tasks = ['clean', 'installAppDependencies', 'buildApp', 
+             'packageApp', 'build']
 }
 
 installAppDependencies.mustRunAfter clean
-packageApp.mustRunAfter installAppDependencies
-build.mustRunAfter packageApp
+testApp.mustRunAfter installAppDependencies
+buildApp.mustRunAfter testApp
+packageApp.mustRunAfter buildApp
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
