@@ -26,14 +26,16 @@ class TicketDashboard extends React.Component {
                     columns = {[
                         { title: "ID", field: "id", render: rowData => "#" + rowData.id },
                         { title: "Summary", field: "summary" },
-                        { title: "Priority", field: "priority", lookup: Helper.priorities },
-                        { title: "Status", field: "status", lookup: Helper.statuses },
+                        { title: "Priority", field: "priority", lookup: Helper.priorities,
+                            customSort: (a, b) => a.priority - b.priority },
+                        { title: "Status", field: "status", lookup: Helper.statuses,
+                            customSort: (a, b) => a.status - b.status },
                         { title: "Email", field: "email" },
                         { title: "Created", field: "created",
                             render: rowData => new Date(rowData.created).toLocaleDateString() },
                     ]}
                     actions = {[{
-                        icon: 'add',
+                        icon: 'add_box',
                         tooltip: 'Add Ticket',
                         isFreeAction: true,
                         onClick: this.openTicketForm
@@ -85,9 +87,7 @@ class TicketDashboard extends React.Component {
     saveTicket() {
         fetch(Helper.buildSaveUrl(this.state.isEdit, this.state.ticket.id), {
             method: this.state.isEdit ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state.ticket),
         }).then(() => {
             this.closeTicketForm();

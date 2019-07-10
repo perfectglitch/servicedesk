@@ -1,6 +1,6 @@
 module.exports = {
 
-    priorities: { 5: 'Not Great, Not Terrible', 4: 'High', 3: 'Medium', 2: 'Low', 1: 'Lowest' },
+    priorities: { 1: 'Lowest', 2: 'Low', 3: 'Medium', 4: 'High', 5: 'Not Great, Not Terrible' },
     statuses: { 1: 'Open', 2: 'In Progress', 3: 'Closed' },
 
     initTicket: function() {
