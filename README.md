@@ -10,9 +10,9 @@ Java 8
 
 ## Quick usage
 
-To  build, test and package executable .jar use custom Gradle task `cleanBuildAll`.
+To  build, test and package executable .jar use custom Gradle task `stage`.
 
-> gradle cleanBuildAll
+> gradle stage
 
 Start application by running:
 

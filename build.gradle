@@ -41,9 +41,13 @@ task packageApp(type: Copy, dependsOn: buildApp) {
     into 'build/resources/main/public/.'
 }
 
-task cleanBuildAll(type: GradleBuild) {
+task stage(type: GradleBuild) {
     tasks = ['clean', 'installAppDependencies', 'packageApp', 'build']
 }
+
+installAppDependencies.mustRunAfter clean
+packageApp.mustRunAfter installAppDependencies
+build.mustRunAfter packageApp
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
