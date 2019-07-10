@@ -141,8 +141,8 @@ public class TicketITest {
         List<Ticket> tickets = extractTicketsFromPage(result.getResponse().getContentAsString());
 
         // then
-        assertThat(tickets, hasSize(2));
-        assertThat(tickets, contains(
+        assertThat("Expecting 2 tickets", tickets, hasSize(2));
+        assertThat("Closed tickets must be excluded", tickets, contains(
             hasProperty("status", is(1)),
             hasProperty("status", is(2))
         ));
