@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+
 import TicketForm from './TicketForm'
 import * as Helper from './../../util/ticket/Helper';
 
@@ -68,7 +69,9 @@ class TicketDashboard extends React.Component {
         let ticket = isEdit
             ? rowData
             : Helper.initTicket();
-        this.setState({ ticketFormOpen: true, ticket: ticket, isEdit: isEdit });
+        this.setState({
+            ticketFormOpen: true, ticket: ticket, isEdit: isEdit
+        });
     }
 
     onTicketFormChange(event) {
