@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'com.moowork.node' version '1.3.1'
 }
 
 apply plugin: 'base'
@@ -15,54 +14,52 @@ repositories {
     mavenCentral()
 }
 
-node {
-    download = true
-    workDir = file("${project.buildDir}/nodejs")
-    npmWorkDir = file("${project.buildDir}/npm")
+// Include integration test sources
+sourceSets {
+    integTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integTest/java')
+        }
+        resources.srcDir file('src/integTest/resources')
+    }
 }
 
-task installAppDependencies(type: NpmTask) {
-    workingDir = file("${project.projectDir}/app")
-    args = ["install"]
+// Make sure integration tests have access to dependencies
+configurations {
+    integTestCompile.extendsFrom testCompile
+    integTestImplementation.extendsFrom testImplementation
+    integTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
-task testApp(type: NpmTask) {
-    workingDir = file("${project.projectDir}/app")
-    args = ["run", "test"]
+// Make integration tests run after unit tests
+task integTest(type: Test) {
+    testClassesDirs = sourceSets.integTest.output.classesDirs
+    classpath = sourceSets.integTest.runtimeClasspath
+    shouldRunAfter test
 }
+check.dependsOn integTest
 
-task buildApp(type: NpmTask) {
-    workingDir = file("${project.projectDir}/app")
-    args = ["run", "build"]
+// Include React build output in jar after bundling it
+processResources {
+    from('app/build') {
+        into 'public'
+    }
+    dependsOn 'app:bundle'
 }
-
-task packageApp(type: Copy, dependsOn: buildApp) {
-    from 'app/build'
-    into 'build/resources/main/public/.'
-}
-
-task cleanBuildAll(type: GradleBuild) {
-    tasks = ['clean', 'installAppDependencies', 'testApp', 
-             'buildApp', 'packageApp', 'build']
-}
-
-task stage(type: GradleBuild) {
-    tasks = ['clean', 'installAppDependencies', 'buildApp', 
-             'packageApp', 'build']
-}
-
-installAppDependencies.mustRunAfter clean
-testApp.mustRunAfter installAppDependencies
-buildApp.mustRunAfter testApp
-packageApp.mustRunAfter buildApp
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
+
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
     compileOnly 'org.projectlombok:lombok:1.18.8'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
     runtimeOnly 'com.h2database:h2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

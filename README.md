@@ -2,17 +2,17 @@
 
 ## About
 
-Java test assignment implementation using Gradle, Spring Boot and React.
+Java Service Desk sample implementation using Spring Data REST and React.
 
 ### Requirements
 
 Java 8
 
-## Quick usage
+## Usage
 
-To  build, test and package executable .jar use custom Gradle task `cleanBuildAll`.
+Build application:
 
-> gradle cleanBuildAll
+> gradlew build
 
 Start application by running:
 
@@ -26,6 +26,6 @@ Set `spring.profiles.active` Java property value to `demo` in order to start app
 
 > java -Dspring.profiles.active=demo -jar build/libs/servicedesk-0.0.1-SNAPSHOT.jar
 
-
+### How to use the app
 
 ![dashboard_PNG](https://github.com/perfectglitch/servicedesk/raw/master/servicedesk.PNG)
