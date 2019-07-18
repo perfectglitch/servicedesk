@@ -20,7 +20,7 @@ Start application by running:
 
 After application has started open `http://localhost:8080` in your browser.
 
-![dashboard_PNG](https://github.com/perfectglitch/servicedesk/raw/master/servicedesk.PNG)
+![dashboard_PNG](https://github.com/perfectglitch/servicedesk/raw/develop/servicedesk.PNG)
 
 ### Populate DB with sample records
 
