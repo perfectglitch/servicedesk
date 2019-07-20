@@ -6,13 +6,13 @@ node {
     download = true
 }
 
-task bundle(type: NpmTask, dependsOn: npmInstall) {
+task test(type: NpmTask) {
+    environment = ['CI': 'true']
+    args = ['run', 'test']
+    mustRunAfter npmInstall
+}
+
+task build(type: NpmTask, dependsOn: [npmInstall, test]) {
     args = ['run', 'build']
 }
 
-task npmTest(type: NpmTask) {
-    environment = ['CI': 'true']
-    args = ['run', 'test']
-}
-
-bundle.dependsOn npmTest

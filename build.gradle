@@ -40,13 +40,14 @@ task integTest(type: Test) {
     shouldRunAfter test
 }
 check.dependsOn integTest
+//check.dependsOn ':app:test'
 
-// Include React build output in jar after bundling it
+// Ensure frontend is built and included in jar file
 processResources {
-    from('app/build') {
+    from ('app/build/') {
         into 'public'
     }
-    dependsOn 'app:bundle'
+    shouldRunAfter ':app:build'
 }
 
 dependencies {

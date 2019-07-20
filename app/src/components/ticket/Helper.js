@@ -8,7 +8,7 @@ module.exports = {
             summary: '',
             description: '',
             email: '',
-            priority: 5,
+            priority: 1,
             status: 1
         };
     },

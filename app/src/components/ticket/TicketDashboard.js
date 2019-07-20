@@ -2,7 +2,7 @@ import React from 'react';
 import MaterialTable from 'material-table';
 
 import TicketForm from './TicketForm'
-import * as Helper from './../../util/ticket/Helper';
+import * as Helper from './Helper';
 
 class TicketDashboard extends React.Component {
 

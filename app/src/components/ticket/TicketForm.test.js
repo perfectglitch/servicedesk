@@ -2,26 +2,18 @@ import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import TicketForm from './TicketForm';
-import { initTicket } from './../../util/ticket/Helper';
+import { savedTicket, unsavedTicket } from './../../__fixtures__/TicketsFixture'
 
 afterEach(cleanup);
 
 describe('TicketForm', () => {
     it('is edit form if ticket id set', () => {
         // given
-        const ticket = {
-            id: 1,
-            summary: "summary1",
-            description: "description1",
-            email: "email@example.com",
-            status: 1,
-            priority: 1
-        };
-        const isOpen = true;
+        const ticket = { ...savedTicket };
 
         // when
         const {queryByText, findByText} = render(
-            <TicketForm open={ isOpen } ticket={ ticket } />,
+            <TicketForm open={ true } ticket={ ticket } />,
         );
 
         // then
@@ -31,18 +23,11 @@ describe('TicketForm', () => {
 
     it('is create form if ticket id not set', () => {
         // given
-        const ticket = {
-            summary: "",
-            description: "",
-            email: "",
-            status: 1,
-            priority: 1
-        };
-        const isOpen = true;
+        const ticket = { ...unsavedTicket };
 
         // when
         const { queryByText, findByText } = render(
-            <TicketForm open={ isOpen } ticket={ ticket } />,
+            <TicketForm open={ true } ticket={ ticket } />,
         );
 
         // then
@@ -52,14 +37,8 @@ describe('TicketForm', () => {
 
     it('delegates actions to handlers provided via props', () => {
         // given
-        const ticket = {
-            summary: "summary1",
-            description: "description1",
-            email: "email@example.com",
-            status: 1,
-            priority: 1
-        };
-        const isOpen = true;
+        const ticket = { ...unsavedTicket };
+        let isOpen = true;
 
         const saveHandler = jest.fn();
         const closeHandler = jest.fn();
@@ -73,9 +52,9 @@ describe('TicketForm', () => {
                 open={ isOpen } ticket={ ticket } />,
         );
 
+        fireEvent.change(getByLabelText("Summary"), {target: {value: 'new summary'}});
         fireEvent.click(getByText("Save"));
         fireEvent.click(getByText("Close"));
-        fireEvent.change(getByLabelText("Summary"), {target: {value: 'new summary'}});
 
         // then
         expect(saveHandler.mock.calls.length).toBe(1);
