@@ -40,15 +40,6 @@ task integTest(type: Test) {
     shouldRunAfter test
 }
 check.dependsOn integTest
-//check.dependsOn ':app:test'
-
-// Ensure frontend is built and included in jar file
-processResources {
-    from ('app/build/') {
-        into 'public'
-    }
-    shouldRunAfter ':app:build'
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
